@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  interestname: MyString
+  user_id: 
+
+two:
+  interestname: MyString
+  user_id: 

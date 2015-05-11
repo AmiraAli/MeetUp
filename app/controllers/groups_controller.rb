@@ -20,6 +20,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
+     @interests = Interest.all
   end
 
   # POST /groups

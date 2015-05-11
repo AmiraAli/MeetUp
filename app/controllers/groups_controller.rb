@@ -62,15 +62,38 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1
   # PATCH/PUT /groups/1.json
   def update
-    respond_to do |format|
-      if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { render :show, status: :ok, location: @group }
-      else
-        format.html { render :edit }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
+      @myinterest = params[:myinterest]
+      @myinterest_arr = @myinterest.split(",")
+      @myinterest_arr.each {|a| a.strip! if a.respond_to? :strip! } #to remove white spaces
+      @myinterest_arr.inspect
+      selected_id = Array.new
+      @myinterest_arr.each do |interest|
+      @interests = Interest.where("interestname = ?", interest)
+        @interests.each do |interest_selected|
+        @interest_id = interest_selected.id
+        end
+      selected_id.push(@interest_id) 
       end
-    end
+      group_id = @group.id
+      respond_to do |format|
+        if @group.update(group_params)
+        @interestgroups = Interestgroup.where("group_id = ?", group_id)
+        @interestgroups.each do |interest_selected|
+        @interestgroup_id = interest_selected.id
+        @interestgroup = Interestgroup.find(@interestgroup_id)
+        @interestgroup.destroy
+        end
+        selected_id.each do |myinteret_id|
+        @interestgroup = Interestgroup.new(interest_id: myinteret_id, group_id: group_id )
+        @interestgroup.save
+        end
+          format.html { redirect_to @group, notice: 'Group was successfully updated.' }
+          format.json { render :show, status: :ok, location: @group }
+        else
+          format.html { render :edit }
+          format.json { render json: @group.errors, status: :unprocessable_entity }
+        end
+      end
   end
 
   # DELETE /groups/1

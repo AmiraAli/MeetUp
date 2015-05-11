@@ -1,29 +1,42 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <p id="notice"><%= notice %></p>
+    <div class="col-md-offset-10 ">
+      <%= link_to 'New Interest', new_interest_path %>
+    </div>
+      <div class="col-md-12">
+        <h1>
+         <span class="label label-default">Listing Interests</span>
+        </h1>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr class="info">
+                <th class="text-center">Interestname</th>
+                <th class="text-center">User</th>
+                <th class="text-center">Show</th>
+                <th class="text-center">Edit</th>
+                <th class="text-center">Destroy</th>
+              </tr>
+            </thead>
 
-<h1>Listing Interests</h1>
+            <tbody>
+              <% @interests.each do |interest| %>
+                <tr>
+                  <td class="text-center"><%= interest.interestname %></td>
+                  <td class="text-center"><%= interest.user %></td>
+                  <td class="text-center"><%= link_to 'Show', interest %></td>
+                  <td class="text-center"><%= link_to 'Edit', edit_interest_path(interest) %></td>
+                  <td class="text-center"><%= link_to 'Destroy', interest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
 
-<table>
-  <thead>
-    <tr>
-      <th>Interestname</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+        <br>
+        </div>
+      </div>
+  </div>
+</div>
 
-  <tbody>
-    <% @interests.each do |interest| %>
-      <tr>
-        <td><%= interest.interestname %></td>
-        <td><%= interest.user %></td>
-        <td><%= link_to 'Show', interest %></td>
-        <td><%= link_to 'Edit', edit_interest_path(interest) %></td>
-        <td><%= link_to 'Destroy', interest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
-
-<%= link_to 'New Interest', new_interest_path %>

@@ -120,8 +120,6 @@ ActiveRecord::Schema.define(version: 20150509133941) do
     t.integer  "photo_file_size",    limit: 4
     t.datetime "photo_updated_at"
     t.string   "password_digest",    limit: 255
-    t.string   "provider",           limit: 255
-    t.string   "token",              limit: 255
   end
 
   add_foreign_key "comments", "posts"

@@ -4,7 +4,7 @@
 <div class="col-md-6 ">
 <h4><%= link_to 'Back', events_path %> </h4>
 </div>
-<div class="col-md-1 pull-right"><h4><%= link_to 'Edit', edit_event_path(@event) %></h4></div>
+<div class="col-md-2 pull-right"><h4><%= link_to 'Edit', edit_event_path(@event) %>|<%= link_to 'Delete', @event, method: :delete, data: { confirm: 'Are you sure?' } %></h4></div>
 </div>
 
 <div class="row jumbotron">
@@ -19,7 +19,7 @@
 <div class="row panel panel-default ">
 <div class="panel-body">
 
-<%= link_to 'Destroy', post, method: :delete, class: 'pull-right btn btn-danger',data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Delete', post, method: :delete, class: 'pull-right btn btn-danger',data: { confirm: 'Are you sure?' } %>
 <%= link_to 'Edit', edit_post_path(post), class: 'pull-right btn btn-success' %>
 <% user= User.where("id= ?",post.user_id)%>
     <h4><span><%= user[0]['username'] %>:</span>
@@ -31,7 +31,7 @@
     <div class="row">
     <div class="col-md-6 panel panel-default ">
   <div class="panel-body">
-  <%= link_to 'Destroy', comment, method: :delete , class: 'pull-right btn btn-danger', data: { confirm: 'Are you sure?' } %>
+  <%= link_to 'Delete', comment, method: :delete , class: 'pull-right btn btn-danger', data: { confirm: 'Are you sure?' } %>
   <%= link_to 'Edit', edit_comment_path(comment), class: 'pull-right btn btn-success' %>
     <% user= User.where("id= ?",comment.user_id)%>
     <h4><span><%= user[0]['username'] %>:</span>

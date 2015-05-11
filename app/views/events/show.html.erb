@@ -1,44 +1,100 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
-</p>
+<div class="row ">
+<div class="col-md-6 ">
+<h4><%= link_to 'Back', events_path %> </h4>
+</div>
+<div class="col-md-1 pull-right"><h4><%= link_to 'Edit', edit_event_path(@event) %></h4></div>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @event.description %>
-</p>
+<div class="row jumbotron">
+  <h1><%= @event.title %></h1>
+  <p><%= @event.address %>,<%= @event.city %>,<%= @event.country %></p>
+  <p>From:<%= @event.startdate %>    To:<%= @event.enddate %></p>
+  <p><%= @event.description %></p>
+</div>
 
-<p>
-  <strong>Startdate:</strong>
-  <%= @event.startdate %>
-</p>
+<% @posts.each do |post| %>
 
-<p>
-  <strong>Enddate:</strong>
-  <%= @event.enddate %>
-</p>
+<div class="row panel panel-default ">
+<div class="panel-body">
 
-<p>
-  <strong>City:</strong>
-  <%= @event.city %>
-</p>
+<%= link_to 'Destroy', post, method: :delete, class: 'pull-right btn btn-danger',data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Edit', edit_post_path(post), class: 'pull-right btn btn-success' %>
+<% user= User.where("id= ?",post.user_id)%>
+    <h4><span><%= user[0]['username'] %>:</span>
+    <%= post.body %></h4>
+    <h4><b>Comments:</b></h4>
 
-<p>
-  <strong>Country:</strong>
-  <%= @event.country %>
-</p>
+    <% @comments.each do |comment| %>
+    <% if comment.post_id == post.id %>
+    <div class="row">
+    <div class="col-md-6 panel panel-default ">
+  <div class="panel-body">
+  <%= link_to 'Destroy', comment, method: :delete , class: 'pull-right btn btn-danger', data: { confirm: 'Are you sure?' } %>
+  <%= link_to 'Edit', edit_comment_path(comment), class: 'pull-right btn btn-success' %>
+    <% user= User.where("id= ?",comment.user_id)%>
+    <h4><span><%= user[0]['username'] %>:</span>
+    <%= comment.body %></h4>
+    </div>
+    </div>
+    </div>
+    <% end %>
 
-<p>
-  <strong>Address:</strong>
-  <%= @event.address %>
-</p>
+    <% end %>
+    
+    <div class="row">
+        <div class="col-md-3 panel panel-default ">
+      <div class="panel-body">
+                <%= form_for :comment, url: comments_path do |form| %>
+                <div class="form-group">
+                <label>Leave your comment here:</label>
+              <div class="field">
+                <%= form.text_area :body %>
+              </div>
+              <%= form.hidden_field :event_id , value: @event.id %>
+              <div class="field">
+                <%= form.hidden_field :post_id , value: post.id %>
+              </div>
+              <div class="field">
+                <%= form.hidden_field :user_id , value: 1 %>
+              </div>
+              <div class="actions">
+                <%= form.submit 'Submit', class: 'btn btn-primary'%>
+              </div>
+              </div>
+            <% end %>
+        </div>
+        
+        </div>
+    </div>
+</div>
+</div>
+<% end %>
 
-<p>
-  <strong>User:</strong>
-  <%= @event.user %>
-</p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+
+<div class="row col-md-6 panel panel-default">
+  <div class="panel-body">
+    <%= form_for :post, url: posts_path do |f| %>
+    <div class="form-group">
+    <h4><b>Enter Your Post</b> </h4>
+  <div class="field">
+    <%= f.text_area :body , class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :event_id , value: @event.id  %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :user_id  , value: 1 %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Submit' , class: 'btn btn-primary'%>
+  </div>
+  </div>
+<% end %>
+  </div>
+</div>
+
+
+

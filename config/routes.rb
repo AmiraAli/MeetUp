@@ -12,11 +12,15 @@ Rails.application.routes.draw do
   resources :groups
   resources :interests
   resources :users
+  get '/home/searchbyinterest', to: 'home#searchbyinterest', :constraints => { :only_ajax => true }
+  get '/home/searchgroupname', to: 'home#searchgroupname', :constraints => { :only_ajax => true }
+  get '/home/findgroupslocation', to: 'home#findgroupslocation', :constraints => { :only_ajax => true }
+  get '/home/findevents', to: 'home#findevents', :constraints => { :only_ajax => true }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'groups#index'
+  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

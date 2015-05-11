@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506183840) do
+ActiveRecord::Schema.define(version: 20150509133941) do
 
   create_table "comments", force: :cascade do |t|
     t.text     "body",       limit: 65535
@@ -27,16 +27,18 @@ ActiveRecord::Schema.define(version: 20150506183840) do
   create_table "events", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.text     "description", limit: 65535
-    t.date     "startdate"
-    t.date     "enddate"
     t.string   "city",        limit: 255
     t.string   "country",     limit: 255
     t.string   "address",     limit: 255
     t.integer  "user_id",     limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.datetime "enddate"
+    t.datetime "startdate"
+    t.integer  "group_id",    limit: 4
   end
 
+  add_index "events", ["group_id"], name: "index_events_on_group_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
@@ -46,6 +48,8 @@ ActiveRecord::Schema.define(version: 20150506183840) do
     t.integer  "user_id",     limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "longitude",   limit: 255
+    t.string   "latitude",    limit: 255
   end
 
   add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree
@@ -115,6 +119,7 @@ ActiveRecord::Schema.define(version: 20150506183840) do
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "events", "groups"
   add_foreign_key "events", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "interestgroups", "groups"

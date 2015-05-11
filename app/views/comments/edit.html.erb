@@ -1,6 +1,8 @@
-<h1>Editing Comment</h1>
-
+<% @post_id=@comment.post_id
+    @post=Post.where("id = ?", @post_id)
+    @event_id=@post[0]['event_id']%>
+<a href="http://localhost:3000/events/<%= @event_id%>">Back</a> 
+<center><h1>Editing Comment</h1></center>
 <%= render 'form' %>
 
-<%= link_to 'Show', @comment %> |
-<%= link_to 'Back', comments_path %>
+

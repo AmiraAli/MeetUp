@@ -1,0 +1,116 @@
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</head>
+<body onload="getLocation()">
+<div class="row">
+        <div class="col-md-6 pull-right">
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" id="groupname" class="form-control input-lg" placeholder="search by group name around 100 mile" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-active btn-lg" onclick="searchgroupname()" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                       </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+	</div><br>
+<div class="row">
+	<div class="col-md-6" id="data">
+	</div>
+	<div  class="col-md-6 ">
+	 <div class="row">
+		<div  class="col-md-6 panel panel-default">
+  				<div class="panel-body">
+  				<h4 class="badge">Interests</h4>
+  					<% @interests.each do |interest|%>
+  						<div class="row">
+  						<a onclick="searchbyinterest('<%= interest.id %>')"><%= interest.interestname %></a>
+  						</div>
+  					<% end%>
+  				</div>
+		</div>
+		<div  class="col-md-6 panel panel-default" >
+			<div class="panel-body">
+				<h4 class="row badge">Events</h4>
+				<div id="datepicker" class="row"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var latitude=null;
+var longitude=null;
+
+     function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        document.getElementById('data').innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+latitude=position.coords.latitude;
+longitude=position.coords.longitude;
+	$.ajax({
+				method: "GET",
+				url: "<%= home_findgroupslocation_path %>?latitude="+position.coords.latitude+"&longitude="+position.coords.longitude
+				})
+				.done(function( msg ) {
+				document.getElementById('data').innerHTML=msg;
+			});
+}
+
+$( "#datepicker" ).datepicker({
+        onSelect: function(date) {
+ 		$.ajax({
+				method: "GET",
+				url: "<%= home_findevents_path %>?startdate="+date+"00:00:00",
+				data: { startdate: date+" 00:00:00"}
+				})
+				.done(function( msg ) {
+				document.getElementById('data').innerHTML=msg;
+			});
+        },
+        dateFormat: "yy-mm-dd"
+    });
+
+
+function searchgroupname(){
+	var groupname=document.getElementById("groupname").value;
+
+	if(groupname){
+		$.ajax({
+				method: "GET",
+				url: "<%= home_searchgroupname_path %>?groupname="+groupname+"&latitude="+latitude+"&longitude="+longitude
+				})
+				.done(function( msg ) {
+				document.getElementById('data').innerHTML=msg;
+			});
+		
+	}else{
+		alert("Enter your group name to search");
+	}
+}
+
+function searchbyinterest(interestid){
+	$.ajax({
+				method: "GET",
+				url: "<%= home_searchbyinterest_path %>?interestid="+interestid+"&latitude="+latitude+"&longitude="+longitude
+				})
+				.done(function( msg ) {
+				document.getElementById('data').innerHTML=msg;
+			});
+}
+     
+</script>
+</body>
+</html>

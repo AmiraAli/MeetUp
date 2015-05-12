@@ -1,4 +1,12 @@
 <div class="container">
+<div class="row">
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">Groups</a></li>
+  <li role="presentation"><a href="http://localhost:3000/events">Events</a></li>
+  <li role="presentation"><a href="http://localhost:3000/interests">Interests</a></li>
+  <li role="presentation"><a href="http://localhost:3000/users">Users</a></li>
+</ul>
+</div>
   <div class="row">
     <p id="notice"><%= notice %></p>
     <div class="col-md-offset-10 ">
@@ -28,7 +36,7 @@
                 <td class="text-center"><%= group.groupname %></td>
                 <td class="text-center"><%= group.description %></td>
                 <td class="text-center"><%= group.location %></td>
-                <td class="text-center"><%= group.user %></td>
+                <td class="text-center"><%= group.user.username %></td>
                 <td class="text-center"><%= link_to 'Show', group %></td>
                 <td class="text-center"><%= link_to 'Edit', edit_group_path(group) %></td>
                 <td class="text-center"><%= link_to 'Destroy', group, method: :delete, 

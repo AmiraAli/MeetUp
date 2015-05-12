@@ -21,7 +21,7 @@
   <div class="form-group">
     <%= f.label :location %>
     <%= f.text_field :location, class: "form-control",
-    value: "Alexandria,Egypt", readonly: "readonly", id: "country" %>
+    value: current_user.city+","+current_user.country, readonly: "readonly", id: "country" %>
     <br>
     <select id="country2" name ="country2" class="form-control" style="display:none;"></select>
     <br>
@@ -38,11 +38,11 @@
   </script>
 
     <div class="form-group">
-    <%= f.hidden_field :latitude, class: "form-control", id: "latitude" %>
+    <%= f.hidden_field :latitude, class: "form-control", id: "latitude" ,value:current_user.latitude %>
   </div>
 
     <div class="form-group">
-    <%= f.hidden_field :longitude, class: "form-control", id: "longitude" %>
+    <%= f.hidden_field :longitude, class: "form-control", id: "longitude", value: current_user.longitude %>
   </div>
 
   <div class="form-group" id="selected_interests">
@@ -61,7 +61,7 @@
   <% end %>
 </div>
   <div class="form-group">
-    <%= f.hidden_field :user_id, class: "form-control", value: '1' %>
+    <%= f.hidden_field :user_id, class: "form-control", value: current_user.id %>
   </div>
   <div class="form-group">
   <%= f.file_field :avatar %>

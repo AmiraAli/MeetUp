@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  before_action :authenticate
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
@@ -129,6 +130,13 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
+
       params.require(:group).permit(:groupname, :description, :location, :user_id, :avatar, :latitude, :longitude)
+
+    end
+    def authenticate
+      if !current_user
+        redirect_to :controller => 'home', :action => 'index'
+      end
     end
 end

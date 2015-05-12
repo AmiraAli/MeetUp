@@ -1,0 +1,13 @@
+<h3>Events:</h3>
+<% if @events != nil %>
+	<% @events.each do |event| %>
+	<div class="alert alert-success" role="alert">
+	<h4><a href="events/<%= event.id %>"><%= event.title %>,<%= event.address %>,<%= event.city %>,<%= event.country %></a></h4><br>
+	From:<%= event.startdate %> To:<%= event.enddate %> <br>
+	        <%= event.description %><br>
+	        </div>
+	        <hr>
+	<% end %>
+<% else %>
+No Events Yet!!
+<% end %>

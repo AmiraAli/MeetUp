@@ -1,4 +1,13 @@
 <div class="container">
+<div class="row">
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="http://localhost:3000/groups">Groups</a></li>
+  <li role="presentation"><a href="http://localhost:3000/events">Events</a></li>
+  <li role="presentation"  class="active"><a href="http://localhost:3000/interests">Interests</a></li>
+  <li role="presentation"><a href="http://localhost:3000/users">Users</a></li>
+</ul>
+</div>
+
   <div class="row">
     <p id="notice"><%= notice %></p>
     <div class="col-md-offset-10 ">
@@ -24,7 +33,7 @@
               <% @interests.each do |interest| %>
                 <tr>
                   <td class="text-center"><%= interest.interestname %></td>
-                  <td class="text-center"><%= interest.user %></td>
+                  <td class="text-center"><%= interest.user.username %></td>
                   <td class="text-center"><%= link_to 'Show', interest %></td>
                   <td class="text-center"><%= link_to 'Edit', edit_interest_path(interest) %></td>
                   <td class="text-center"><%= link_to 'Destroy', interest, method: :delete, data: { confirm: 'Are you sure?' } %></td>

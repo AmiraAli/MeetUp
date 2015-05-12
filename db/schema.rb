@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511132734) do
+ActiveRecord::Schema.define(version: 20150511154830) do
 
   create_table "comments", force: :cascade do |t|
     t.text     "body",       limit: 65535
@@ -27,16 +27,18 @@ ActiveRecord::Schema.define(version: 20150511132734) do
   create_table "events", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.text     "description", limit: 65535
-    t.date     "startdate"
-    t.date     "enddate"
     t.string   "city",        limit: 255
     t.string   "country",     limit: 255
     t.string   "address",     limit: 255
     t.integer  "user_id",     limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.datetime "enddate"
+    t.datetime "startdate"
+    t.integer  "group_id",    limit: 4
   end
 
+  add_index "events", ["group_id"], name: "index_events_on_group_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
@@ -46,12 +48,12 @@ ActiveRecord::Schema.define(version: 20150511132734) do
     t.integer  "user_id",             limit: 4
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.string   "longitude",           limit: 255
+    t.string   "latitude",            limit: 255
     t.string   "avatar_file_name",    limit: 255
     t.string   "avatar_content_type", limit: 255
     t.integer  "avatar_file_size",    limit: 4
     t.datetime "avatar_updated_at"
-    t.string   "latitude",            limit: 255
-    t.string   "longitude",           limit: 255
   end
 
   add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree
@@ -122,12 +124,13 @@ ActiveRecord::Schema.define(version: 20150511132734) do
     t.integer  "photo_file_size",    limit: 4
     t.datetime "photo_updated_at"
     t.string   "password_digest",    limit: 255
-    t.string   "provider",           limit: 255
-    t.string   "token",              limit: 255
+    t.string   "latitude",           limit: 255
+    t.string   "longitude",          limit: 255
   end
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "events", "groups"
   add_foreign_key "events", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "interestgroups", "groups"

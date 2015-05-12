@@ -41,15 +41,47 @@
 <%= f.select(:country, [], {}, { :class => 'form-control' ,:id => 'country'})%> </div> 
 <div class="field"> 
 <%= f.label :city %><br> 
-<%= f.select(:city, [],{}, { :class => 'form-control' ,:id => 'state'}) %> 
+<%= f.select(:city, [],{}, { :class => 'form-control' ,:id => 'state', :onclick=> 'addlocation()'}) %> 
 </div> 
 <script language="javascript"> populateCountries("country", "state"); 
+
 </script>
 
-   
+ <div class="form-group">
+    <%= f.hidden_field :latitude, class: "form-control", id: "latitude" %>
+  </div>
+
+    <div class="form-group">
+    <%= f.hidden_field :longitude, class: "form-control", id: "longitude" %>
+  </div>
+
   <%= f.file_field :photo,class: 'form-control'%>
     <%= f.submit "Create my account", class: "btn btn-primary"%>
   
 <% end %>
 </div>
 </div>
+<script type="text/javascript">
+  function addlocation(){
+    //to convert selected location to latitude and longitude//
+    var geocoder = new google.maps.Geocoder();
+    var country=document.getElementById('country');
+    var state=document.getElementById('state');
+    var address = country.value+","+state.value;
+
+    geocoder.geocode( { 'address': address}, function(results, status) {
+
+          if (status == google.maps.GeocoderStatus.OK) {
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+            var latitude_div = document.getElementById('latitude');
+            latitude_div.value = latitude;
+            var longitude_div = document.getElementById('longitude');
+            longitude_div.value = longitude;            
+            } 
+
+  });
+  }
+
+
+</script>

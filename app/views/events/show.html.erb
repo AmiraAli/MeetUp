@@ -1,44 +1,148 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
-</p>
+<div class="row ">
+<div class="col-md-6 ">
+<h4><%= link_to 'Back', events_path %> </h4>
+</div>
+<% if current_user.id == @event.user_id  || current_user.isadmin %>
+<div class="col-md-2 pull-right"><h4><%= link_to 'Edit', edit_event_path(@event) %>|<%= link_to 'Delete', @event, method: :delete, data: { confirm: 'Are you sure?' } %></h4>
+</div>
+<% end %>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @event.description %>
-</p>
+<div class="row jumbotron">
+  <h1><%= @event.title %></h1>
+  <p><%= @event.address %>,<%= @event.city %>,<%= @event.country %></p>
+  <p>From:<%= @event.startdate %>    To:<%= @event.enddate %></p>
+  <p><%= @event.description %></p>
+</div>
+<div class="row">
+  <button class="pull-right btn btn-primary" id="btn_member" onclick="checkmember('<%= @event.id%>')">
+<%= @members[@members.length-1]['user_id']%>
+<%= current_user.id%>
+<%= @members[@members.length-1]['event_id'] %>
+<%= @event_id %>
+<%= @ismember%>
+      <% if @ismember %>
+          Un Join! 
+    <% else %>
+          Join us! 
+    <% end %>
+  </button>
+</div>
 
-<p>
-  <strong>Startdate:</strong>
-  <%= @event.startdate %>
-</p>
+<% @posts.each do |post| %>
 
-<p>
-  <strong>Enddate:</strong>
-  <%= @event.enddate %>
-</p>
+<div class="row panel panel-default ">
+<div class="panel-body">
 
-<p>
-  <strong>City:</strong>
-  <%= @event.city %>
-</p>
+ <% if current_user.id == post.user_id || current_user.isadmin%>
+<%= link_to 'Delete', post, method: :delete, class: 'pull-right btn btn-danger',data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Edit', edit_post_path(post), class: 'pull-right btn btn-success' %>  
+  <% end %>
 
-<p>
-  <strong>Country:</strong>
-  <%= @event.country %>
-</p>
+<% user= User.where("id= ?",post.user_id)%>
+    <h4><span><%= user[0]['username'] %>:</span>
+    <%= post.body %></h4>
+    <h4><b>Comments:</b></h4>
 
-<p>
-  <strong>Address:</strong>
-  <%= @event.address %>
-</p>
+    <% @comments.each do |comment| %>
+    <% if comment.post_id == post.id %>
+    <div class="row">
+    <div class="col-md-6 panel panel-default ">
+  <div class="panel-body">
 
-<p>
-  <strong>User:</strong>
-  <%= @event.user %>
-</p>
+  <% if current_user.id == comment.user_id  || current_user.isadmin %>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+  <%= link_to 'Delete', comment, method: :delete , class: 'pull-right btn btn-danger', data: { confirm: 'Are you sure?' } %>
+  <%= link_to 'Edit', edit_comment_path(comment), class: 'pull-right btn btn-success' %>
+   <% end %>
+
+    <% user= User.where("id= ?",comment.user_id)%>
+    <h4><span><%= user[0]['username'] %>:</span>
+    <%= comment.body %></h4>
+    </div>
+    </div>
+    </div>
+    <% end %>
+
+    <% end %>
+    
+    <div class="row">
+        <div class="col-md-3 panel panel-default ">
+      <div class="panel-body">
+                <%= form_for :comment, url: comments_path do |form| %>
+                <div class="form-group">
+                <label>Leave your comment here:</label>
+              <div class="field">
+                <%= form.text_area :body %>
+              </div>
+              <%= form.hidden_field :event_id , value: @event.id %>
+              <div class="field">
+                <%= form.hidden_field :post_id , value: post.id %>
+              </div>
+              <div class="field">
+                <%= form.hidden_field :user_id , value: current_user.id %>
+              </div>
+              <div class="actions">
+                <%= form.submit 'Submit', class: 'btn btn-primary'%>
+              </div>
+              </div>
+            <% end %>
+        </div>
+        
+        </div>
+    </div>
+</div>
+</div>
+<% end %>
+
+
+
+<div class="row col-md-6 panel panel-default">
+  <div class="panel-body">
+    <%= form_for :post, url: posts_path do |f| %>
+    <div class="form-group">
+    <h4><b>Enter Your Post</b> </h4>
+  <div class="field">
+    <%= f.text_area :body , class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :event_id , value: @event.id  %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :user_id  , value: current_user.id %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Submit' , class: 'btn btn-primary'%>
+  </div>
+  </div>
+<% end %>
+  </div>
+</div>
+<script type="text/javascript">
+  function checkmember(event_id){
+    var check=document.getElementById("btn_member").innerHTML;
+        if (check == "Join us!"){
+            $.ajax({
+                    method: "GET",
+                    url: "<%= home_addmembertoevent_path %>?event_id="+event_id
+                    })
+                    .done(function( msg ) {
+                      console.log("Done");
+                      document.getElementById("btn_member").innerHTML="Un Join!";
+                });
+        }else{
+          $.ajax({
+                    method: "GET",
+                    url: "<%= home_removememberfromevent_path %>?event_id="+event_id
+                    })
+                    .done(function( msg ) {
+                      console.log("Done");
+                      document.getElementById("btn_member").innerHTML="Join us!";
+                });
+        }
+  }
+</script>
+
+

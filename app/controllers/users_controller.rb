@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate, only: [:show, :edit, :update, :destroy,:index]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -68,9 +69,11 @@ end
   # DELETE /users/1.json
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user.isadmin
+      redirect_to :controller => 'users', :action => 'index'
+    else
+        log_out
+     redirect_to root_url
     end
   end
 
@@ -82,6 +85,11 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :email, :password, :isadmin, :gender, :age, :country, :city,:photo)
+      params.require(:user).permit(:username, :email, :password, :isadmin, :gender, :age, :country, :city,:photo, :latitude,:longitude)
+    end
+    def authenticate
+      if !current_user
+        redirect_to :controller => 'home', :action => 'index'
+      end
     end
 end

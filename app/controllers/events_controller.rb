@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_action :authenticate
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
   # GET /events
@@ -10,6 +11,18 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @event_id=params[:id]
+    @posts=Post.where("event_id = ?",@event_id)
+    @comments=Comment.all
+    @members=Userevent.all
+
+    @ismember=false
+    
+    for i in 0..@members.length-1
+      if @members[i]['user_id'] == current_user.id and @members[i]['event_id'] == @event_id
+        @ismember=true
+      end
+    end
   end
 
   # GET /events/new
@@ -61,6 +74,8 @@ class EventsController < ApplicationController
     end
   end
 
+ 
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -69,6 +84,11 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:title, :description, :startdate, :enddate, :city, :country, :address, :user_id)
+      params.require(:event).permit(:title, :description, :startdate, :enddate, :city, :country, :address, :user_id,:group_id)
+    end
+    def authenticate
+      if !current_user
+        redirect_to :controller => 'home', :action => 'index'
+      end
     end
 end

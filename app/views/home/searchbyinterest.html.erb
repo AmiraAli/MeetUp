@@ -1,0 +1,9 @@
+<h3>Groups:</h3>
+
+<% for i in 0..@groups.length-1 do %>
+		<div class="alert alert-info" role="alert">
+		  <h4><a href="groups/<%= @groups[i][0]['id'] %>"><%= @groups[i][0]['groupname'] %>,<%= @groups[i][0]['location'] %></a></h4><br>
+		  <%= @groups[i][0]['description'] %>
+		  </div>
+		  <hr>
+		<% end %>				

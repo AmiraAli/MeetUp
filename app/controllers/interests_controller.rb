@@ -55,6 +55,13 @@ class InterestsController < ApplicationController
   # DELETE /interests/1
   # DELETE /interests/1.json
   def destroy
+    interest_id = @interest.id 
+    @interestgroups = Interestgroup.where("interest_id = ?", interest_id)
+    @interestgroups.each do |interest_selected|
+      @interestgroup_id = interest_selected.id
+      @interestgroup = Interestgroup.find(@interestgroup_id)
+      @interestgroup.destroy
+    end
     @interest.destroy
     respond_to do |format|
       format.html { redirect_to interests_url, notice: 'Interest was successfully destroyed.' }

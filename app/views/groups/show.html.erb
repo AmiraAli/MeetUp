@@ -19,6 +19,10 @@
   <strong>User:</strong>
   <%= @group.user %>
 </p>
+<p>
+<strong>Picture:</strong>
+<%= image_tag @group.avatar.url %>
+</p>
 
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>

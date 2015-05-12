@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  before_action :authenticate
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
@@ -15,19 +16,40 @@ class GroupsController < ApplicationController
   # GET /groups/new
   def new
     @group = Group.new
+    @interests = Interest.all
   end
 
   # GET /groups/1/edit
   def edit
+     @interests = Interest.all
   end
 
   # POST /groups
   # POST /groups.json
   def create
+    @myinterest = params[:myinterest]
+    @myinterest_arr = @myinterest.split(",")
+    @myinterest_arr.each {|a| a.strip! if a.respond_to? :strip! } #to remove white spaces
+    @myinterest_arr.inspect
+    selected_id = Array.new
+    @myinterest_arr.each do |interest|
+      @interests = Interest.where("interestname = ?", interest)
+      @interests.each do |interest_selected|
+      @interest_id = interest_selected.id
+      end
+      selected_id.push(@interest_id) 
+    end
+    
     @group = Group.new(group_params)
 
     respond_to do |format|
       if @group.save
+        group_id = @group.id # here you get the id
+        selected_id.each do |myinteret_id|
+          @interestgroup = Interestgroup.new(interest_id: myinteret_id, group_id: group_id )
+          @interestgroup.save
+        end
+
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
@@ -35,6 +57,7 @@ class GroupsController < ApplicationController
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
+    
   end
 
   # PATCH/PUT /groups/1
@@ -54,6 +77,13 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
+    group_id = @group.id 
+    @interestgroups = Interestgroup.where("group_id = ?", group_id)
+    @interestgroups.each do |interest_selected|
+      @interestgroup_id = interest_selected.id
+      @interestgroup = Interestgroup.find(@interestgroup_id)
+      @interestgroup.destroy
+    end
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
@@ -69,6 +99,13 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:groupname, :description, :location, :user_id, :latitude  ,:longitude)
+
+      params.require(:group).permit(:groupname, :description, :location, :user_id, :avatar, :latitude, :longitude)
+
+    end
+    def authenticate
+      if !current_user
+        redirect_to :controller => 'home', :action => 'index'
+      end
     end
 end

@@ -1,4 +1,5 @@
 class InterestsController < ApplicationController
+  before_action :authenticate
   before_action :set_interest, only: [:show, :edit, :update, :destroy]
 
   # GET /interests
@@ -70,5 +71,10 @@ class InterestsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def interest_params
       params.require(:interest).permit(:interestname, :user_id)
+    end
+    def authenticate
+      if !current_user
+        redirect_to :controller => 'home', :action => 'index'
+      end
     end
 end

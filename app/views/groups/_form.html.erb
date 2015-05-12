@@ -1,41 +1,73 @@
 <%= form_for(@group) do |f| %>
-  <% if @group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+    <% if @group.errors.any? %>
+      <div id="error_explanation" class="form-group">
+        <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:
+        </h2>
+        <ul>
+        <% @group.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <div class="form-group">
+    <%= f.label :groupname %>
+    <%= f.text_field :groupname, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :location %>
+    <%= f.text_field :location, class: "form-control",
+    value: current_user.city+","+current_user.country, readonly: "readonly", id: "country" %>
+    <br>
+    <select id="country2" name ="country2" class="form-control" style="display:none;"></select>
+    <br>
 
-      <ul>
-      <% @group.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <select name ="state" id ="state" onclick="location_data()" class="form-control" style="display:none;"></select>
+    <br>
+    <a id="btndone" class="btn btn-sm btn-primary" onclick="doneselect()" style="display:none;">Done</a> 
+
+    <a id="link" class="btn btn-link" onclick="selectcountry()">Not in Alexandria,Egypt?</a> 
+  
+  </div>
+  <script language="javascript">
+    populateCountries("country2", "state");
+  </script>
+
+    <div class="form-group">
+    <%= f.hidden_field :latitude, class: "form-control", id: "latitude" ,value:current_user.latitude %>
+  </div>
+
+    <div class="form-group">
+    <%= f.hidden_field :longitude, class: "form-control", id: "longitude", value: current_user.longitude %>
+  </div>
+
+  <div class="form-group" id="selected_interests">
+    <label>Group interests</label>
+  </div>
+  <input type="hidden" id="myinterest" name="myinterest" value="">
+
+<div class="form-group" id="avaliable_interests">
+  <label>Avaliable interests</label>
+  <% @interests.each do |interest| %>
+  <div id="interests" style="display: inline-block;" class="panel panel-default">    
+    <div id="<%= interest.id%>" class="panel-body" onclick="selectinterest(this)" >
+     <%= interest.interestname %>
     </div>
+  </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :groupname %><br>
-    <%= f.text_field :groupname %>
+</div>
+  <div class="form-group">
+    <%= f.hidden_field :user_id, class: "form-control", value: current_user.id %>
   </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br>
-    <%= f.text_field :location %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :latitude %><br>
-    <%= f.text_field :latitude %>
-  </div>
-  <div class="field">
-    <%= f.label :longitude %><br>
-    <%= f.text_field :longitude %>
+  <div class="form-group">
+  <%= f.file_field :avatar %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'btn btn-success' %> 
   </div>
 <% end %>
+

@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   resources :groups
   resources :interests
   resources :users
+  get '/home/removememberfromevent', to: 'home#removememberfromevent', :constraints => { :only_ajax => true }
+  get '/home/addmembertoevent', to: 'home#addmembertoevent', :constraints => { :only_ajax => true }
   get '/home/searchbyinterest', to: 'home#searchbyinterest', :constraints => { :only_ajax => true }
   get '/home/searchgroupname', to: 'home#searchgroupname', :constraints => { :only_ajax => true }
   get '/home/findgroupslocation', to: 'home#findgroupslocation', :constraints => { :only_ajax => true }

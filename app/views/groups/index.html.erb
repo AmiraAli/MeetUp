@@ -1,35 +1,53 @@
 <div class="container">
-<p id="notice"><%= notice %></p>
+<div class="row">
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">Groups</a></li>
+  <li role="presentation"><a href="http://localhost:3000/events">Events</a></li>
+  <li role="presentation"><a href="http://localhost:3000/interests">Interests</a></li>
+  <li role="presentation"><a href="http://localhost:3000/users">Users</a></li>
+</ul>
+</div>
+  <div class="row">
+    <p id="notice"><%= notice %></p>
+    <div class="col-md-offset-10 ">
+      <%= link_to 'New Group', new_group_path %>
+    </div>
+    <div class="col-md-12">
+      <h1>
+        <span class="label label-default">Listing Groups</span>
+      </h1>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr class="info">
+              <th class="text-center">Groupname</th>
+              <th class="text-center">Description</th>
+              <th class="text-center">Location</th>
+              <th class="text-center">User</th>
+              <th class="text-center">Show</th>
+              <th class="text-center">Edit</th>
+              <th class="text-center">Destroy</th>
+            </tr>
+          </thead>
 
-<h1>Listing Groups</h1>
+          <tbody>
+            <% @groups.each do |group| %>
+              <tr>
+                <td class="text-center"><%= group.groupname %></td>
+                <td class="text-center"><%= group.description %></td>
+                <td class="text-center"><%= group.location %></td>
+                <td class="text-center"><%= group.user.username %></td>
+                <td class="text-center"><%= link_to 'Show', group %></td>
+                <td class="text-center"><%= link_to 'Edit', edit_group_path(group) %></td>
+                <td class="text-center"><%= link_to 'Destroy', group, method: :delete, 
+                data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
 
-<table>
-  <thead>
-    <tr>
-      <th>Groupname</th>
-      <th>Description</th>
-      <th>Location</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @groups.each do |group| %>
-      <tr>
-        <td><%= group.groupname %></td>
-        <td><%= group.description %></td>
-        <td><%= group.location %></td>
-        <td><%= group.user %></td>
-        <td><%= link_to 'Show', group %></td>
-        <td><%= link_to 'Edit', edit_group_path(group) %></td>
-        <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Group', new_group_path %>
+        <br>
+      </div>
+    </div>
+  </div>
 </div>

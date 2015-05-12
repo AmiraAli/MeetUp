@@ -39,4 +39,21 @@ class HomeController < ApplicationController
 		# render plain: @groups[0][0]['id'].inspect
 		render :layout => false
 	end
+
+
+	 def addmembertoevent
+    @event_id=params[:event_id]
+    @user_id=current_user.id
+    @eventmember=Userevent.new()
+    @eventmember.event_id=@event_id
+    @eventmember.user_id=@user_id
+    @eventmember.save
+    render :layout => false
+
+  end 
+
+  def removememberfromevent
+  	@eventmember=Userevent.where("user_id=?",current_user.id).where("event_id=?",params[:event_id])
+  	@eventmember.delete_all
+  end
 end

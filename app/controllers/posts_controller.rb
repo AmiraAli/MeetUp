@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+ before_action :authenticate 
+ before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   # GET /posts
   # GET /posts.json
@@ -57,6 +58,7 @@ class PostsController < ApplicationController
     redirect_to :controller => 'events', :action => 'show', :id => @event_id
   end
 
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -67,4 +69,13 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(:body, :event_id, :user_id)
     end
+
+    def authenticate
+      if !current_user
+        redirect_to :controller => 'home', :action => 'index'
+      end
+    end 
+
+
+
 end

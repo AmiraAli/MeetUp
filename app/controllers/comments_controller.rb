@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  before_action :authenticate
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
 
   # GET /comments
@@ -74,5 +75,10 @@ class CommentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
       params.require(:comment).permit(:body, :post_id, :user_id)
+    end
+    def authenticate
+      if !current_user
+        redirect_to :controller => 'home', :action => 'index'
+      end
     end
 end

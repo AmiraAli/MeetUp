@@ -1,5 +1,11 @@
-<h1>New User</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', users_path %>
+<div class="container">
+	<div class="row">
+		<%= link_to 'Back', users_path %>
+		<div class="col-md-offset-3 col-md-6">
+		<h1>
+			<span class="label label-default">New User</span>
+		</h1>
+		<%= render 'form' %>
+		</div>
+	</div>
+</div>

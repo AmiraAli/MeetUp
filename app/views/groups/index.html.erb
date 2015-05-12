@@ -18,7 +18,6 @@
       </h1>
       <div class="table-responsive">
         <table class="table table-hover">
-          <thead>
             <tr class="info">
               <th class="text-center">Groupname</th>
               <th class="text-center">Description</th>
@@ -28,9 +27,7 @@
               <th class="text-center">Edit</th>
               <th class="text-center">Destroy</th>
             </tr>
-          </thead>
 
-          <tbody>
             <% @groups.each do |group| %>
               <tr>
                 <td class="text-center"><%= group.groupname %></td>
@@ -43,7 +40,6 @@
                 data: { confirm: 'Are you sure?' } %></td>
               </tr>
             <% end %>
-          </tbody>
         </table>
 
         <br>

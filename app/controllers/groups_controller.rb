@@ -19,6 +19,7 @@ class GroupsController < ApplicationController
       @user_data = User.where("id = ?", user_id)
       @users_data.push(@user_data) 
     end
+    @events = Event.where("group_id = ?", group_id)
   end
 
   # GET /groups/new

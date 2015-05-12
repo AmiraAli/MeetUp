@@ -20,7 +20,6 @@
 			<div id="Home" style="display:block;">
 				<div class="table-responsive">
 					<table class="table table-hover">
-						<tbody>	
 							<tr>
 								<td>
 									<%= @group.description %>
@@ -34,11 +33,26 @@
 									<% end -%>	
 								</td>
 							</tr>
-							
-						</tbody>
 					</table>
 				</div>
-				
+				<div class="table-responsive">
+					<table class="table table-hover" >
+							<tr>
+								<td>
+									<h3 class="text-left"><strong> Recent Meetups </strong></h3>
+								</td>
+							</tr>
+							<% @events.each do |event| %>
+								<tr>
+									<td>
+										<h3><%= link_to event.title, event %></h3>
+										<br>
+										<h4><%= event.description %></h4>
+									</td>
+								</tr>
+							<% end -%>	
+					</table>
+				</div>
 			</div>
 
 			<div id="Members" style="display:none;">

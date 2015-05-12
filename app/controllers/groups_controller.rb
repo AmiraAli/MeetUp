@@ -10,6 +10,14 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
+    group_id = params[:id]
+    @users_id = Usergroup.where("group_id = ?", group_id)
+    @users_data = Array.new
+    @users_id.each do |user|
+      user_id = user.id
+      @user_data = User.where("id = ?", user_id)
+      @users_data.push(@user_data) 
+    end
   end
 
   # GET /groups/new

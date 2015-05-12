@@ -1,28 +1,86 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+	<div class="row">
+		<div class="col-md-offset-10 ">
+			<%= link_to 'Back', groups_path %>
+		</div>
+		<%= image_tag @group.avatar.url, style: "width: 1000px; height: 150px" %>
+		<div class="col-md-offset-2 col-md-7">
+			<h1>
+				<span class="label label-default"><%= @group.groupname %></span>
+			</h1>
+			<ul class="nav navbar-nav navbar-right">
+			  <li><a class="btn btn-primary">Join us!</a></li>
+			</ul>
 
-<p>
-  <strong>Groupname:</strong>
-  <%= @group.groupname %>
-</p>
+			<ul class="nav nav-pills">
+			  <li class="active" id="home"><a onclick="showhome()">Home</a></li>
+			  <li id="members"><a onclick="showmembers()">Members</a></li>
+			</ul>
+			<br>			
+			<div id="Home" style="display:block;">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<tbody>	
+							<tr>
+								<td>
+									<%= @group.description %>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h3 class="text-left"><strong>We are <%= @users_data.length %> Member</strong></h3>
+									<% @users_data.each do |user| %>
+										<%= image_tag user[0].photo.url, width: '32', height: '32' %>
+									<% end -%>	
+								</td>
+							</tr>
+							
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @group.description %>
-</p>
+			<div id="Members" style="display:none;">
+				<h1>
+					<span class="label label-default">Members</span>
+				</h1>
+				<ul class="nav nav-pills">
+				  <li class="active" id="members_li"><a onclick="getmembers()">All Members</a></li>
+				  <li id="admin_li"><a onclick="adminmember()">The Leadership Team</a></li>
+				</ul>
+				<div id="allmembers" style="display:block;">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<tbody>
+								<% @users_data.each do |user| %>
+									<tr>
+										<td>
+											<%= image_tag user[0].photo.url, width: '32', height: '32' %>
+											<%= link_to user[0].username, user[0] %>
+										</td>	
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div id="adminmember" style="display:none;">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<tbody>
+									<tr>
+										<td>
+											<%= image_tag @group.user.photo.url, width: '32', height: '32' %>
+											<%= link_to @group.user.username, @group.user %>
+										</td>	
+									</tr>
+							</tbody>
+						</table>
+					</div>
 
-<p>
-  <strong>Location:</strong>
-  <%= @group.location %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @group.user %>
-</p>
-<p>
-<strong>Picture:</strong>
-<%= image_tag @group.avatar.url %>
-</p>
-
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

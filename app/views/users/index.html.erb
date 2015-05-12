@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-        <% if isadmin? %>
 
 
 <h1>Listing Users</h1>
@@ -41,6 +40,4 @@
 <br>
 
 <%= link_to 'New User', new_user_path %>
-<%else%>
-<h1>you aren't admin to see this page<h1>
-<%end%>
+

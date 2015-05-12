@@ -87,6 +87,47 @@ function selectinterest (value) {
 
 }
 
-function myinterest () {
-    console.log('hide');
+function showmembers(){
+    var Home = document.getElementById('Home');
+    Home.style.display = "none";
+    var members = document.getElementById('Members');
+    members.style.display = "block";
+    var home_li = document.getElementById('home');
+    home_li.classList.remove("active");
+    var members_li = document.getElementById("members");
+    members_li.classList.add("active");
+
 }
+function showhome(){
+    var members = document.getElementById('Members');
+    members.style.display = "none";
+    var home = document.getElementById('Home');
+    home.style.display = "block";
+    var home_li = document.getElementById('home');
+    home_li.classList.add("active");
+    var members_li = document.getElementById("members");
+    members_li.classList.remove("active");
+}
+function getmembers() {
+    var adminmember = document.getElementById('adminmember');
+    adminmember.style.display = "none";
+    var allmembers = document.getElementById('allmembers');
+    allmembers.style.display = "block";
+    var members_li = document.getElementById('members_li');
+    members_li.classList.add("active");
+    var admin_li = document.getElementById("admin_li");
+    admin_li.classList.remove("active");
+}
+function adminmember() {
+    var allmembers = document.getElementById('allmembers');
+    allmembers.style.display = "none";
+    var adminmember = document.getElementById('adminmember');
+    adminmember.style.display = "block";
+    var members_li = document.getElementById('members_li');
+    members_li.classList.remove("active");
+    var admin_li = document.getElementById("admin_li");
+    admin_li.classList.add("active");
+}
+
+
+

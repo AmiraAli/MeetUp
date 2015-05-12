@@ -16,8 +16,7 @@
     <%= f.text_field :interestname, class: "form-control" %>
   </div>
   <div class="form-group">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id, class: "form-control" %>
+      <%= f.hidden_field :user_id, class: "form-control" , value: current_user.id%>
   </div>
   <div class="actions">
     <%= f.submit class: 'btn btn-success' %>

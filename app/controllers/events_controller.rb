@@ -68,6 +68,13 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
+    event_id = @event.id 
+    @userevents = Userevent.where("event_id = ?", event_id)
+    @userevents.each do |users_selected|
+      @userevent_id = users_selected.id
+      @userevent = Userevent.find(@userevent_id)
+      @userevent.destroy
+    end
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }

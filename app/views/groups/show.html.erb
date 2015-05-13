@@ -1,7 +1,13 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-offset-10 ">
-			<%= link_to 'Back', groups_path %>
+	<h4>
+     <% if current_user.isadmin %>
+      <%= link_to 'Back', groups_path %>
+    <%else%>
+      <%= link_to 'Back', "http://localhost:3000/" %>
+    <%end%>
+    </h4>
 		</div>
 		<%= image_tag @group.avatar.url, style: "width: 1000px; height: 150px" %>
 		<div class="col-md-offset-2 col-md-7">
@@ -21,7 +27,7 @@
 				          style="visibility:visible;" 
 				    <% else %>
 				          style="visibility:hidden;"
-				    <% end %> href="/events/new?group_id<%= @group.id%>">
+				    <% end %> href="/events/new?group_id=<%= @group.id%>">
 				    Create Event
 				    </a>
 			    </li>
@@ -42,30 +48,30 @@
 							</tr>
 							<tr>
 								<td>
-									<h3 class="text-left"><strong>We are <%= @users_data.length %> Member</strong></h3>
-									<% @users_data.each do |user| %>
-										<%= image_tag user[0].photo.url, width: '32', height: '32' %>
+									<h3 class="text-left"><strong>We are <%= @users_id.length %> Member</strong></h3>
+									<% @users_id.each do |user| %>
+										<%= image_tag user.user.photo.url, width: '32', height: '32' %>
 									<% end -%>	
 								</td>
 							</tr>
 					</table>
 				</div>
-				<h3>Events:</h3>
-					<% if @events != nil %>
-						<% @events.each do |event| %>
-						<div class="alert alert-success" role="alert">
-						<h4><a href="events/<%= event.id %>"><%= event.title %>,<%= event.address %>,<%= event.city %>,<%= event.country %></a></h4><br>
-						From:<%= event.startdate %> To:<%= event.enddate %> <br>
-						        <%= event.description %><br>
-						        </div>
-						        <hr>
+				<div>
+					<h3>Events:</h3>
+						<% if @events != nil %>
+							<% @events.each do |event| %>
+							<div class="alert alert-success" role="alert">
+							<h4><a href="/events/<%= event.id %>"><%= event.title %>,<%= event.address %>,<%= event.city %>,<%= event.country %></a></h4><br>
+							From:<%= event.startdate %> To:<%= event.enddate %> <br>
+							        <%= event.description %><br>
+							        </div>
+							        <hr>
+							<% end %>
+						<% else %>
+						No Events Yet!!
 						<% end %>
-					<% else %>
-					No Events Yet!!
-					<% end %>
 				</div>
 			</div>
-
 			<div id="Members" style="display:none;">
 				<h1>
 					<span class="label label-default">Members</span>
@@ -78,11 +84,11 @@
 					<div class="table-responsive">
 						<table class="table table-hover">
 							<tbody>
-								<% @users_data.each do |user| %>
+								<% @users_id.each do |user| %>
 									<tr>
 										<td>
-											<%= image_tag user[0].photo.url, width: '32', height: '32' %>
-											<%= link_to user[0].username, user[0] %>
+											<%= image_tag user.user.photo.url, width: '32', height: '32' %>
+											<%= link_to user.user.username, user.user %>
 										</td>	
 									</tr>
 								<% end %>
@@ -103,7 +109,6 @@
 							</tbody>
 						</table>
 					</div>
-
 				</div>
 			</div>
 		</div>

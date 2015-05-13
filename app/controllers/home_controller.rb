@@ -62,9 +62,7 @@ class HomeController < ApplicationController
   def addmembertogroup
     @group_id=params[:group_id]
     @user_id=current_user.id
-    @groupmember=Usergroup.new()
-    @groupmember.group_id=@group_id
-    @groupmember.user_id=@user_id
+    @groupmember=Usergroup.new(group_id: @group_id, user_id: @user_id)
     @groupmember.save
     render :layout => false
 

@@ -27,10 +27,12 @@
     <% end %>
     <%= f.password_field :password, autocomplete: "off" ,class: 'form-control'%>
     </div>
+    <% if current_user.isadmin %>
     <div class="form-group">
       <%= f.label :isadmin %>
     <%= f.check_box :isadmin %>
     </div>
+    <% end -%>
     <div class="form-group">
     <%= f.label :gender %>
     <%= f.select :gender ,User::GENDERS.map { |s| [("#{s}"), s] }%>

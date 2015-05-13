@@ -13,12 +13,6 @@ class GroupsController < ApplicationController
   def show
     group_id = params[:id]
     @users_id = Usergroup.where("group_id = ?", group_id)
-    @users_data = Array.new
-    @users_id.each do |user|
-      user_id = user.id
-      @user_data = User.where("id = ?", user_id)
-      @users_data.push(@user_data) 
-    end
     @events = Event.where("group_id = ?", group_id)
 
     @members=Usergroup.where("group_id=?",group_id)
@@ -125,6 +119,12 @@ class GroupsController < ApplicationController
       @interestgroup_id = interest_selected.id
       @interestgroup = Interestgroup.find(@interestgroup_id)
       @interestgroup.destroy
+    end
+    @usergroups = Usergroup.where("group_id = ?", group_id)
+    @usergroups.each do |user_selected|
+    @usergroup_id = user_selected.id
+    @usergroup = Usergroup.find(@usergroup_id)
+    @usergroup.destroy
     end
     @group.destroy
     respond_to do |format|

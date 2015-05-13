@@ -38,7 +38,7 @@ def create
     if @user.save
       log_in @user
       # Sends email to user when user is created.
-      UserNotifier.send_signup_email(@user).deliver
+      # UserNotifier.send_signup_email(@user).deliver
 
       format.html { redirect_to @user, notice: 'User was successfully created.' }
       format.json { render :show, status: :created, location: @user }

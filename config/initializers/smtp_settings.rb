@@ -1,9 +1,8 @@
 ActionMailer::Base.smtp_settings = {
-    :address => "smtp.gmail.com",
-    :port => 25,
-    :domain => "gmail.com",
-    :user_name => "smagdy215@gmail.com",
-    :password => "Engsarah33",
-    :authentication => "plain",
-    :enable_starttls_auto => true
+	:address              => "smtp.gmail.com",
+	:port                 => 587,
+	:user_name            => "mymeetup933@gmail.com",
+	:password             => 'meetup123456',
+	:authentication       => "plain",
+	:enable_starttls_auto => true
 }

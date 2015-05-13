@@ -20,6 +20,16 @@ class GroupsController < ApplicationController
       @users_data.push(@user_data) 
     end
     @events = Event.where("group_id = ?", group_id)
+
+    @members=Usergroup.where("group_id=?",group_id)
+
+    @ismember=false
+    
+    for i in 0..@members.length-1
+      if (@members[i]['user_id'] == current_user.id)
+        @ismember=true
+      end
+    end
   end
 
   # GET /groups/new

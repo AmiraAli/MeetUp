@@ -1,8 +1,10 @@
 <h3>Groups:</h3>
 		<% for i in 0..@groups.length-1 do %>
 		<div class="alert alert-danger" role="alert">
-		  <h4><a href="groups/<%= @groups[i]['id'] %>"><%= @groups[i]['groupname'] %>,<%= @groups[i]['location'] %></a></h4><br>
-		  <%= @groups[i]['description'] %>
+		  <h4><a href="groups/<%= @groups[i].id%>"><%= @groups[i]['groupname'] %>,<%= @groups[i]['location'] %></a></h4><br>
+		<% if @groups[i].avatar_file_size !=nil%>
+		  	<%= image_tag @groups[i].avatar.url, style: "width:300px; height:300px" , class: "img-circle"%>
+		  <% end %>		
 		  </div>
 		  <hr>
 		<% end %>

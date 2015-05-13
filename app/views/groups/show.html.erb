@@ -9,7 +9,22 @@
 				<span class="label label-default"><%= @group.groupname %></span>
 			</h1>
 			<ul class="nav navbar-nav navbar-right">
-			  <li><a class="btn btn-primary">Join us!</a></li>
+			  <li><a class="btn btn-primary" id="btn_member" onclick="checkmember('<%= @group.id%>')">
+			      <% if @ismember %>
+			          Un Join! 
+			    <% else %>
+			          Join us! 
+			    <% end %></a></li><br>
+			    <li>
+			    	<a  id="btn_event"  	
+			    	<% if @ismember %>
+				          style="visibility:visible;" 
+				    <% else %>
+				          style="visibility:hidden;"
+				    <% end %> href="/events/new?group_id<%= @group.id%>">
+				    Create Event
+				    </a>
+			    </li>
 			</ul>
 
 			<ul class="nav nav-pills">
@@ -35,23 +50,19 @@
 							</tr>
 					</table>
 				</div>
-				<div class="table-responsive">
-					<table class="table table-hover" >
-							<tr>
-								<td>
-									<h3 class="text-left"><strong> Recent Meetups </strong></h3>
-								</td>
-							</tr>
-							<% @events.each do |event| %>
-								<tr>
-									<td>
-										<h3><%= link_to event.title, event %></h3>
-										<br>
-										<h4><%= event.description %></h4>
-									</td>
-								</tr>
-							<% end -%>	
-					</table>
+				<h3>Events:</h3>
+					<% if @events != nil %>
+						<% @events.each do |event| %>
+						<div class="alert alert-success" role="alert">
+						<h4><a href="events/<%= event.id %>"><%= event.title %>,<%= event.address %>,<%= event.city %>,<%= event.country %></a></h4><br>
+						From:<%= event.startdate %> To:<%= event.enddate %> <br>
+						        <%= event.description %><br>
+						        </div>
+						        <hr>
+						<% end %>
+					<% else %>
+					No Events Yet!!
+					<% end %>
 				</div>
 			</div>
 
@@ -98,3 +109,29 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function checkmember(group_id){
+    var check=document.getElementById("btn_member").innerHTML;
+        if (check == "Join us!"){
+            $.ajax({
+                    method: "GET",
+                    url: "<%= home_addmembertogroup_path %>?group_id="+group_id
+                    })
+                    .done(function( msg ) {
+                      console.log("Done");
+                      document.getElementById("btn_member").innerHTML="Un Join!";
+                      document.getElementById("btn_event").style.visibility = "visible";
+                });
+        }else{
+          $.ajax({
+                    method: "GET",
+                    url: "<%= home_removememberfromgroup_path %>?group_id="+group_id
+                    })
+                    .done(function( msg ) {
+                      console.log("Done");
+                      document.getElementById("btn_member").innerHTML="Join us!";
+                      document.getElementById("btn_event").style.visibility= "hidden";
+                });
+        }
+  }
+</script>

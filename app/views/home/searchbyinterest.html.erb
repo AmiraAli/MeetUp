@@ -2,8 +2,10 @@
 
 <% for i in 0..@groups.length-1 do %>
 		<div class="alert alert-info" role="alert">
-		  <h4><a href="groups/<%= @groups[i][0]['id'] %>"><%= @groups[i][0]['groupname'] %>,<%= @groups[i][0]['location'] %></a></h4><br>
-		  <%= @groups[i][0]['description'] %>
+		  <h4><a href="groups/<%= @groups[i][0].id %>"><%= @groups[i][0]['groupname'] %>,<%= @groups[i][0]['location'] %></a></h4><br>
+		  <% if @groups[i][0].avatar_file_size !=nil%>
+		  	<%= image_tag @groups[i][0].avatar.url, style: "width:300px; height:300px" , class: "img-circle"%>
+		  <% end %>
 		  </div>
 		  <hr>
 		<% end %>				

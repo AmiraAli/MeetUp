@@ -14,12 +14,12 @@ class EventsController < ApplicationController
     @event_id=params[:id]
     @posts=Post.where("event_id = ?",@event_id)
     @comments=Comment.all
-    @members=Userevent.all
+    @members=Userevent.where("event_id=?",@event_id)
 
     @ismember=false
     
     for i in 0..@members.length-1
-      if @members[i]['user_id'] == current_user.id and @members[i]['event_id'] == @event_id
+      if (@members[i]['user_id'] == current_user.id)
         @ismember=true
       end
     end
@@ -27,6 +27,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
+    @group_id=params[:group_id]
     @event = Event.new
   end
 

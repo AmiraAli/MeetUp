@@ -48,12 +48,12 @@ ActiveRecord::Schema.define(version: 20150511154830) do
     t.integer  "user_id",             limit: 4
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.string   "longitude",           limit: 255
-    t.string   "latitude",            limit: 255
     t.string   "avatar_file_name",    limit: 255
     t.string   "avatar_content_type", limit: 255
     t.integer  "avatar_file_size",    limit: 4
     t.datetime "avatar_updated_at"
+    t.string   "longitude",           limit: 255
+    t.string   "latitude",            limit: 255
   end
 
   add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree
@@ -124,6 +124,8 @@ ActiveRecord::Schema.define(version: 20150511154830) do
     t.integer  "photo_file_size",    limit: 4
     t.datetime "photo_updated_at"
     t.string   "password_digest",    limit: 255
+    t.string   "provider",           limit: 255
+    t.string   "token",              limit: 255
     t.string   "latitude",           limit: 255
     t.string   "longitude",          limit: 255
   end

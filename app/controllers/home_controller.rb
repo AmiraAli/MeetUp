@@ -55,5 +55,22 @@ class HomeController < ApplicationController
   def removememberfromevent
   	@eventmember=Userevent.where("user_id=?",current_user.id).where("event_id=?",params[:event_id])
   	@eventmember.delete_all
+  	render :layout => false
+  end
+
+
+  def addmembertogroup
+    @group_id=params[:group_id]
+    @user_id=current_user.id
+    @groupmember=Usergroup.new(group_id: @group_id, user_id: @user_id)
+    @groupmember.save
+    render :layout => false
+
+  end 
+
+  def removememberfromgroup
+  	@groupmember=Usergroup.where("user_id=?",current_user.id).where("group_id=?",params[:group_id])
+  	@groupmember.delete_all
+  	render :layout => false
   end
 end

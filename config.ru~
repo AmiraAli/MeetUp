@@ -1,6 +1,8 @@
-
 # This file is used by Rack-based servers to start the application.
 require 'rack/lobster'
+
+require ::File.expand_path('../config/environment',  __FILE__)
+run Rails.application
 
 map '/health' do
   health = proc do |env|
@@ -22,8 +24,6 @@ map '/' do
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Welcome to OpenShift</title>
-  
-
 <style>
 
 /*!
@@ -249,8 +249,6 @@ pre {
 
 $ git commit -a -m 'Some commit message'
 $ git push</pre>
-
-
                   <ul>
                     <li><a href="https://developers.openshift.com/en/managing-modifying-applications.html">Learn more about deploying and building your application</a></li>
                     <li>See the README file in your local application Git repository for more information on the options for deploying applications.</li>
@@ -288,6 +286,7 @@ $ git push</pre>
         </footer>
 </section>
 
+
 </body>
 </html>
 WELCOME_CONTENTS
@@ -295,4 +294,4 @@ WELCOME_CONTENTS
   end
   run welcome
 end
->>>>>>> ed981c82095d7da5bc35a91c51e8e34e06465f90
+
